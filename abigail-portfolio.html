@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abigail Perkasa — Informatics Graduate</title>
+<meta name="description" content="Portofolio Abigail Perkasa — Informatics Graduate, IT Support & Web Developer dari Sumbawa, NTB.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0b111f;
+    --bg-1:#0f1526;
+    --bg-2:#141c33;
+    --panel:#151e36;
+    --line:#28324d;
+    --line-soft:#1c2540;
+    --text:#f3efe7;
+    --muted:#8b96ad;
+    --muted-2:#5f6a85;
+    --gold:#e3a63e;
+    --teal:#4fd1c5;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+    --maxw: 1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--bg-0);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+  ::selection{background:var(--gold); color:#141c33;}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- Nav ---------- */
+  header.site-nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,17,31,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:18px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .monogram{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .monogram .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;}
+  nav.links{display:flex; gap:28px; align-items:center;}
+  nav.links a{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.04em;
+    text-decoration:none;
+    color:var(--muted);
+    transition:color .2s ease;
+  }
+  nav.links a:hover{color:var(--text);}
+  .nav-cta{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--bg-0) !important;
+    background:var(--teal);
+    padding:9px 16px;
+    border-radius:4px;
+    text-decoration:none;
+    letter-spacing:0.02em;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .nav-cta:hover{background:#6fe0d5; transform:translateY(-1px);}
+  @media (max-width:720px){
+    nav.links a:not(.nav-cta){display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .hero-bg{
+    position:absolute;
+    top:50%; right:-6%;
+    transform:translateY(-50%);
+    width:min(64vw, 900px);
+    height:auto;
+    opacity:0.9;
+    pointer-events:none;
+  }
+  .hero-bg line{stroke:var(--line); stroke-width:1; opacity:0.55;}
+  .hero-bg circle.n-organic{fill:var(--muted-2);}
+  .hero-bg circle.n-grid{fill:var(--teal); opacity:0.55;}
+  .hero-bg circle.accent{fill:var(--gold);}
+
+  .hero-inner{
+    position:relative;
+    z-index:2;
+    padding:120px 0 96px;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.12em;
+    color:var(--teal);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow .rule{width:32px; height:2px; background:var(--gold); display:inline-block;}
+
+  h1.headline{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(40px, 6vw, 72px);
+    line-height:1.04;
+    letter-spacing:-0.01em;
+    margin:0 0 22px;
+    max-width:11ch;
+  }
+  h1.headline .accent-word{color:var(--gold);}
+
+  .hero-sub{
+    font-size:18px;
+    color:var(--muted);
+    max-width:46ch;
+    margin:0 0 36px;
+  }
+  .hero-sub strong{color:var(--text); font-weight:500;}
+
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px;}
+  .btn{
+    font-family:var(--mono);
+    font-size:14px;
+    letter-spacing:0.02em;
+    padding:13px 22px;
+    border-radius:5px;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn-primary{background:var(--teal); color:var(--bg-0);}
+  .btn-primary:hover{background:#6fe0d5; transform:translateY(-1px);}
+  .btn-ghost{border:1px solid var(--line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal);}
+
+  .hero-facts{
+    display:flex;
+    gap:40px;
+    flex-wrap:wrap;
+    padding-top:32px;
+    border-top:1px solid var(--line-soft);
+    max-width:640px;
+  }
+  .fact .num{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:26px;
+    color:var(--text);
+    display:block;
+  }
+  .fact .label{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:0.03em;
+  }
+
+  /* ---------- Section shared ---------- */
+  section{padding:88px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:44px;
+  }
+  .section-num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--gold);
+  }
+  .section-title{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:28px;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .section-line{
+    flex:1;
+    height:1px;
+    background:var(--line-soft);
+  }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:56px;
+  }
+  .about-grid p{
+    font-size:17px;
+    color:var(--muted);
+    max-width:60ch;
+  }
+  .about-grid p + p{margin-top:18px;}
+  .side-card{
+    background:var(--panel);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:24px 26px;
+  }
+  .side-card dt{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:0.04em;
+    margin-top:16px;
+  }
+  .side-card dt:first-child{margin-top:0;}
+  .side-card dd{
+    margin:4px 0 0;
+    font-size:15px;
+    color:var(--text);
+  }
+  @media (max-width:820px){
+    .about-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Work ---------- */
+  .work-list{display:flex; flex-direction:column; gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:12px; overflow:hidden;}
+  .work-card{
+    background:var(--panel);
+    padding:36px;
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:32px;
+  }
+  .work-meta{}
+  .work-role{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:20px;
+    margin:0 0 6px;
+  }
+  .work-org{color:var(--teal); font-size:14px; margin:0 0 4px;}
+  .work-period{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+  }
+  .work-body p{color:var(--muted); margin:0 0 14px; font-size:15.5px;}
+  .work-stack{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .chip{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:4px;
+  }
+  .work-highlight{border-left:2px solid var(--gold);}
+  .work-highlight .work-role{color:var(--text);}
+  .featured-tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--gold);
+    letter-spacing:0.06em;
+    margin-bottom:8px;
+  }
+  @media (max-width:720px){
+    .work-card{grid-template-columns:1fr; gap:14px;}
+  }
+
+  /* ---------- Education ---------- */
+  .edu-card{
+    background:var(--panel);
+    border:1px solid var(--line-soft);
+    border-radius:12px;
+    padding:36px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:24px;
+    align-items:start;
+  }
+  .edu-card h3{
+    font-family:var(--display);
+    font-size:22px;
+    margin:0 0 6px;
+  }
+  .edu-card .edu-sub{color:var(--muted); font-size:14.5px; margin:0 0 18px;}
+  .edu-course-tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .gpa-box{
+    text-align:center;
+    background:var(--bg-1);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:20px 26px;
+    min-width:140px;
+  }
+  .gpa-box .num{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:34px;
+    color:var(--gold);
+    display:block;
+  }
+  .gpa-box .label{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    margin-top:4px;
+  }
+  @media (max-width:640px){
+    .edu-card{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Skills ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--line-soft);
+    border:1px solid var(--line-soft);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .skill-cat{
+    background:var(--panel);
+    padding:28px 26px;
+  }
+  .skill-cat .cat-label{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--teal);
+    letter-spacing:0.05em;
+    margin-bottom:14px;
+  }
+  .skill-cat ul{list-style:none; margin:0; padding:0;}
+  .skill-cat li{
+    font-size:14.5px;
+    color:var(--text);
+    padding:6px 0;
+    border-top:1px solid var(--line-soft);
+  }
+  .skill-cat li:first-child{border-top:none;}
+  @media (max-width:820px){
+    .skills-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-section{
+    text-align:center;
+    padding:110px 0 120px;
+    position:relative;
+  }
+  .contact-eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--muted);
+    letter-spacing:0.08em;
+  }
+  .contact-title{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(32px, 5vw, 52px);
+    margin:14px 0 30px;
+  }
+  .contact-title .accent-word{color:var(--teal);}
+  .contact-email{
+    font-family:var(--mono);
+    font-size:clamp(18px, 3vw, 24px);
+    color:var(--text);
+    text-decoration:none;
+    border-bottom:1px solid var(--line);
+    padding-bottom:4px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .contact-email:hover{color:var(--gold); border-color:var(--gold);}
+  .contact-sub{margin-top:20px; color:var(--muted); font-size:15px;}
+  .contact-sub a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
+  .contact-sub a:hover{color:var(--text);}
+
+  footer{
+    border-top:1px solid var(--line-soft);
+    padding:28px 0;
+  }
+  .footer-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted-2);
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="monogram"><span class="dot"></span>AP</a>
+    <nav class="links">
+      <a href="#about">Tentang</a>
+      <a href="#work">Pengalaman</a>
+      <a href="#education">Pendidikan</a>
+      <a href="#skills">Keahlian</a>
+      <a href="mailto:abelperkasa1@gmail.com" class="nav-cta">Hubungi Saya</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <svg class="hero-bg" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <line x1="230.0" y1="499.0" x2="235.6" y2="456.4"/><line x1="230.0" y1="499.0" x2="258.0" y2="565.0"/><line x1="235.6" y1="456.4" x2="230.0" y2="499.0"/><line x1="235.6" y1="456.4" x2="234.9" y2="401.2"/><line x1="117.6" y1="459.8" x2="46.3" y2="473.3"/><line x1="117.6" y1="459.8" x2="235.6" y2="456.4"/><line x1="373.1" y1="117.2" x2="358.4" y2="136.8"/><line x1="78.1" y1="703.9" x2="128.1" y2="786.4"/><line x1="57.6" y1="845.4" x2="128.1" y2="786.4"/><line x1="314.6" y1="544.8" x2="258.0" y2="565.0"/><line x1="314.6" y1="544.8" x2="230.0" y2="499.0"/><line x1="46.3" y1="473.3" x2="117.6" y2="459.8"/><line x1="119.9" y1="238.4" x2="76.6" y2="312.7"/><line x1="234.9" y1="401.2" x2="235.6" y2="456.4"/><line x1="234.9" y1="401.2" x2="318.2" y2="415.0"/><line x1="258.0" y1="565.0" x2="314.6" y2="544.8"/><line x1="258.0" y1="565.0" x2="230.0" y2="499.0"/><line x1="318.2" y1="415.0" x2="234.9" y2="401.2"/><line x1="318.2" y1="415.0" x2="235.6" y2="456.4"/><line x1="459.0" y1="856.5" x2="520.0" y2="757.5"/><line x1="459.0" y1="856.5" x2="442.4" y2="734.8"/><line x1="337.3" y1="298.5" x2="318.2" y2="415.0"/><line x1="208.2" y1="734.2" x2="128.1" y2="786.4"/><line x1="208.2" y1="734.2" x2="304.4" y2="678.4"/><line x1="442.4" y1="734.8" x2="520.0" y2="757.5"/><line x1="442.4" y1="734.8" x2="520.0" y2="655.0"/><line x1="128.1" y1="786.4" x2="57.6" y2="845.4"/><line x1="128.1" y1="786.4" x2="208.2" y2="734.2"/><line x1="451.8" y1="365.9" x2="520.0" y2="347.5"/><line x1="451.8" y1="365.9" x2="520.0" y2="450.0"/><line x1="304.4" y1="678.4" x2="208.2" y2="734.2"/><line x1="304.4" y1="678.4" x2="258.0" y2="565.0"/><line x1="76.6" y1="312.7" x2="119.9" y2="238.4"/><line x1="358.4" y1="136.8" x2="373.1" y2="117.2"/><line x1="520.0" y1="245.0" x2="588.0" y2="245.0"/><line x1="520.0" y1="245.0" x2="520.0" y2="347.5"/><line x1="520.0" y1="347.5" x2="588.0" y2="347.5"/><line x1="520.0" y1="347.5" x2="451.8" y2="365.9"/><line x1="520.0" y1="450.0" x2="588.0" y2="450.0"/><line x1="520.0" y1="450.0" x2="520.0" y2="347.5"/><line x1="520.0" y1="552.5" x2="588.0" y2="552.5"/><line x1="520.0" y1="552.5" x2="520.0" y2="450.0"/><line x1="520.0" y1="655.0" x2="588.0" y2="655.0"/><line x1="520.0" y1="655.0" x2="520.0" y2="552.5"/><line x1="520.0" y1="757.5" x2="588.0" y2="757.5"/><line x1="520.0" y1="757.5" x2="442.4" y2="734.8"/><line x1="588.0" y1="40.0" x2="656.0" y2="40.0"/><line x1="588.0" y1="40.0" x2="656.0" y2="142.5"/><line x1="588.0" y1="245.0" x2="520.0" y2="245.0"/><line x1="588.0" y1="245.0" x2="656.0" y2="245.0"/><line x1="588.0" y1="347.5" x2="520.0" y2="347.5"/><line x1="588.0" y1="347.5" x2="656.0" y2="347.5"/><line x1="588.0" y1="450.0" x2="520.0" y2="450.0"/><line x1="588.0" y1="450.0" x2="588.0" y2="347.5"/><line x1="588.0" y1="552.5" x2="520.0" y2="552.5"/><line x1="588.0" y1="552.5" x2="656.0" y2="552.5"/><line x1="588.0" y1="655.0" x2="520.0" y2="655.0"/><line x1="588.0" y1="655.0" x2="656.0" y2="655.0"/><line x1="588.0" y1="757.5" x2="520.0" y2="757.5"/><line x1="588.0" y1="757.5" x2="656.0" y2="757.5"/><line x1="588.0" y1="860.0" x2="656.0" y2="860.0"/><line x1="588.0" y1="860.0" x2="588.0" y2="757.5"/><line x1="656.0" y1="40.0" x2="588.0" y2="40.0"/><line x1="656.0" y1="40.0" x2="724.0" y2="40.0"/><line x1="656.0" y1="142.5" x2="724.0" y2="142.5"/><line x1="656.0" y1="142.5" x2="656.0" y2="40.0"/><line x1="656.0" y1="245.0" x2="588.0" y2="245.0"/><line x1="656.0" y1="245.0" x2="656.0" y2="142.5"/><line x1="656.0" y1="347.5" x2="588.0" y2="347.5"/><line x1="656.0" y1="347.5" x2="656.0" y2="245.0"/><line x1="656.0" y1="552.5" x2="588.0" y2="552.5"/><line x1="656.0" y1="552.5" x2="724.0" y2="552.5"/><line x1="656.0" y1="655.0" x2="588.0" y2="655.0"/><line x1="656.0" y1="655.0" x2="724.0" y2="655.0"/><line x1="656.0" y1="757.5" x2="588.0" y2="757.5"/><line x1="656.0" y1="757.5" x2="724.0" y2="757.5"/><line x1="656.0" y1="860.0" x2="588.0" y2="860.0"/><line x1="656.0" y1="860.0" x2="724.0" y2="860.0"/><line x1="724.0" y1="40.0" x2="656.0" y2="40.0"/><line x1="724.0" y1="40.0" x2="792.0" y2="40.0"/><line x1="724.0" y1="142.5" x2="656.0" y2="142.5"/><line x1="724.0" y1="142.5" x2="792.0" y2="142.5"/><line x1="724.0" y1="450.0" x2="792.0" y2="450.0"/><line x1="724.0" y1="450.0" x2="724.0" y2="552.5"/><line x1="724.0" y1="552.5" x2="656.0" y2="552.5"/><line x1="724.0" y1="552.5" x2="724.0" y2="450.0"/><line x1="724.0" y1="655.0" x2="656.0" y2="655.0"/><line x1="724.0" y1="655.0" x2="792.0" y2="655.0"/><line x1="724.0" y1="757.5" x2="656.0" y2="757.5"/><line x1="724.0" y1="757.5" x2="792.0" y2="757.5"/><line x1="724.0" y1="860.0" x2="656.0" y2="860.0"/><line x1="724.0" y1="860.0" x2="792.0" y2="860.0"/><line x1="792.0" y1="40.0" x2="724.0" y2="40.0"/><line x1="792.0" y1="40.0" x2="860.0" y2="40.0"/><line x1="792.0" y1="142.5" x2="724.0" y2="142.5"/><line x1="792.0" y1="142.5" x2="860.0" y2="142.5"/><line x1="792.0" y1="245.0" x2="860.0" y2="245.0"/><line x1="792.0" y1="245.0" x2="792.0" y2="142.5"/><line x1="792.0" y1="347.5" x2="860.0" y2="347.5"/><line x1="792.0" y1="347.5" x2="792.0" y2="245.0"/><line x1="792.0" y1="450.0" x2="724.0" y2="450.0"/><line x1="792.0" y1="450.0" x2="860.0" y2="450.0"/><line x1="792.0" y1="655.0" x2="724.0" y2="655.0"/><line x1="792.0" y1="655.0" x2="860.0" y2="655.0"/><line x1="792.0" y1="757.5" x2="724.0" y2="757.5"/><line x1="792.0" y1="757.5" x2="860.0" y2="757.5"/><line x1="792.0" y1="860.0" x2="724.0" y2="860.0"/><line x1="792.0" y1="860.0" x2="792.0" y2="757.5"/><line x1="860.0" y1="40.0" x2="792.0" y2="40.0"/><line x1="860.0" y1="40.0" x2="860.0" y2="142.5"/><line x1="860.0" y1="142.5" x2="792.0" y2="142.5"/><line x1="860.0" y1="142.5" x2="860.0" y2="40.0"/><line x1="860.0" y1="245.0" x2="792.0" y2="245.0"/><line x1="860.0" y1="245.0" x2="860.0" y2="142.5"/><line x1="860.0" y1="347.5" x2="792.0" y2="347.5"/><line x1="860.0" y1="347.5" x2="860.0" y2="245.0"/><line x1="860.0" y1="450.0" x2="792.0" y2="450.0"/><line x1="860.0" y1="450.0" x2="860.0" y2="347.5"/><line x1="860.0" y1="552.5" x2="860.0" y2="450.0"/><line x1="860.0" y1="552.5" x2="860.0" y2="655.0"/><line x1="860.0" y1="655.0" x2="792.0" y2="655.0"/><line x1="860.0" y1="655.0" x2="860.0" y2="552.5"/><line x1="860.0" y1="757.5" x2="792.0" y2="757.5"/><line x1="860.0" y1="757.5" x2="860.0" y2="655.0"/><circle class="n-organic" cx="230.0" cy="499.0" r="5.7"/><circle class="n-organic" cx="235.6" cy="456.4" r="4.6"/><circle class="n-organic" cx="117.6" cy="459.8" r="4.7"/><circle class="n-organic" cx="373.1" cy="117.2" r="3.6"/><circle class="n-organic" cx="78.1" cy="703.9" r="4.9"/><circle class="n-organic" cx="57.6" cy="845.4" r="5.9"/><circle class="n-organic accent" cx="314.6" cy="544.8" r="3.1"/><circle class="n-organic" cx="46.3" cy="473.3" r="2.7"/><circle class="n-organic" cx="119.9" cy="238.4" r="2.6"/><circle class="n-organic" cx="234.9" cy="401.2" r="5.4"/><circle class="n-organic accent" cx="258.0" cy="565.0" r="4.2"/><circle class="n-organic" cx="318.2" cy="415.0" r="3.5"/><circle class="n-organic" cx="459.0" cy="856.5" r="5.4"/><circle class="n-organic" cx="337.3" cy="298.5" r="3.3"/><circle class="n-organic" cx="161.4" cy="97.6" r="5.2"/><circle class="n-organic" cx="208.2" cy="734.2" r="3.9"/><circle class="n-organic" cx="442.4" cy="734.8" r="2.5"/><circle class="n-organic accent" cx="128.1" cy="786.4" r="4.1"/><circle class="n-organic" cx="451.8" cy="365.9" r="2.8"/><circle class="n-organic" cx="304.4" cy="678.4" r="3.4"/><circle class="n-organic" cx="76.6" cy="312.7" r="5.9"/><circle class="n-organic" cx="358.4" cy="136.8" r="3.4"/><circle class="n-grid" cx="520.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="520.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="520.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="520.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="520.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="792.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="792.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="757.5" r="2.4"/>
+    </svg>
+
+    <div class="wrap hero-inner">
+      <p class="eyebrow"><span class="rule"></span>INFORMATICS GRADUATE · SUMBAWA, NTB</p>
+      <h1 class="headline">Open to work,<br><span class="accent-word">closed to drama.</span></h1>
+      <p class="hero-sub">Saya <strong>Abigail Perkasa</strong> — lulusan S1 Informatika dengan pengalaman membangun sistem berbasis web dan menangani dukungan IT. Terbiasa mengubah data administratif yang berantakan jadi sistem yang benar-benar dipakai orang.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="mailto:abelperkasa1@gmail.com">Kirim Email</a>
+        <a class="btn btn-ghost" href="#work">Lihat Pengalaman</a>
+      </div>
+      <div class="hero-facts">
+        <div class="fact"><span class="num">3.71</span><span class="label">IPK · CUM LAUDE</span></div>
+        <div class="fact"><span class="num">2024</span><span class="label">LULUS S1 INFORMATIKA</span></div>
+        <div class="fact"><span class="num">1</span><span class="label">SISTEM DESA DIBANGUN & DIPAKAI</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Tentang</h2>
+      <span class="section-line"></span>
+    </div>
+    <div class="about-grid reveal">
+      <div>
+        <p>Saya lulusan Informatika Universitas Teknologi Sumbawa dengan ketertarikan di sisi praktis teknologi: bagaimana sistem yang dibangun benar-benar membantu orang menyelesaikan pekerjaan sehari-hari — baik itu warga desa yang mengurus surat, atau tim internal yang butuh laptopnya menyala lagi.</p>
+        <p>Proyek capstone saya, Sistem Informasi Desa Maronge, lahir dari pengalaman langsung magang di kantor desa dan melihat sendiri proses administratif yang masih manual. Dari situ saya belajar bahwa solusi teknis yang baik selalu dimulai dari memahami masalah orang yang memakainya, bukan dari teknologinya dulu.</p>
+      </div>
+      <dl class="side-card">
+        <dt>Domisili</dt>
+        <dd>Sumbawa, Nusa Tenggara Barat</dd>
+        <dt>Fokus</dt>
+        <dd>IT Support · Web Development · Administrasi Data</dd>
+        <dt>Ketersediaan</dt>
+        <dd>Siap bergabung secepatnya</dd>
+        <dt>Kontak</dt>
+        <dd><a href="mailto:abelperkasa1@gmail.com" style="color:var(--teal); text-decoration:none;">abelperkasa1@gmail.com</a></dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="work" class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Pengalaman &amp; Proyek</h2>
+      <span class="section-line"></span>
+    </div>
+    <div class="work-list reveal">
+
+      <article class="work-card work-highlight">
+        <div class="work-meta">
+          <span class="featured-tag">PROYEK CAPSTONE</span>
+          <h3 class="work-role">Sistem Informasi Desa Maronge</h3>
+          <p class="work-org">Full-Stack Developer (Independent Project)</p>
+          <p class="work-period">Okt 2022 – Jan 2023 · Sumbawa</p>
+        </div>
+        <div class="work-body">
+          <p><strong style="color:var(--text)">Masalah:</strong> warga Desa Maronge kesulitan mengakses informasi desa — pengumuman, data kependudukan, dan peta wilayah masih tersebar dan tidak terdokumentasi secara digital.</p>
+          <p><strong style="color:var(--text)">Yang dibangun:</strong> sistem informasi berbasis web dengan fitur berita desa, pengumuman, peta wilayah interaktif, dan data kependudukan/rumah tangga — dirancang dan dibangun dari nol.</p>
+          <p><strong style="color:var(--text)">Hasil:</strong> warga bisa mengakses informasi desa lebih cepat dan mudah secara daring, tanpa harus datang langsung ke kantor desa untuk hal-hal dasar.</p>
+          <div class="work-stack">
+            <span class="chip">PHP</span><span class="chip">CodeIgniter</span><span class="chip">MySQL</span><span class="chip">HTML/CSS</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-meta">
+          <h3 class="work-role">IT Support</h3>
+          <p class="work-org">PT Bumi Daya Plaza at BNI</p>
+          <p class="work-period">Okt 2025 – Des 2025 · Sumbawa</p>
+        </div>
+        <div class="work-body">
+          <p>Menangani instalasi, konfigurasi, dan perbaikan sistem operasi (Windows, macOS, Linux) untuk mendukung operasional kantor. Meninjau, memprioritaskan, dan menyelesaikan laporan kerusakan dari pengguna berdasarkan tingkat urgensi.</p>
+          <div class="work-stack">
+            <span class="chip">Troubleshooting</span><span class="chip">Sistem Operasi</span><span class="chip">Layanan Pengguna</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-meta">
+          <h3 class="work-role">Administrative Data &amp; Digital Services Intern</h3>
+          <p class="work-org">Kantor Desa Maronge</p>
+          <p class="work-period">Okt 2022 – Jan 2023 · Sumbawa</p>
+        </div>
+        <div class="work-body">
+          <p>Mencatat dan mengelola data administratif desa dengan tingkat akurasi dan ketepatan waktu tinggi. Memproses surat masuk/keluar dan mendukung pengarsipan dokumen, serta melayani warga yang mengurus surat resmi. Program magang ini menjadi titik awal proyek capstone di atas.</p>
+          <div class="work-stack">
+            <span class="chip">Administrasi Data</span><span class="chip">Pengarsipan</span><span class="chip">Layanan Publik</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="education" class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Pendidikan</h2>
+      <span class="section-line"></span>
+    </div>
+    <div class="edu-card reveal">
+      <div>
+        <h3>S1 Teknik Informatika</h3>
+        <p class="edu-sub">Universitas Teknologi Sumbawa · Agu 2020 – Agu 2024</p>
+        <div class="edu-course-tags">
+          <span class="chip">Kecerdasan Buatan</span>
+          <span class="chip">Data Mining</span>
+          <span class="chip">Machine Learning</span>
+          <span class="chip">Sistem Basis Data</span>
+          <span class="chip">Pemrograman Python</span>
+          <span class="chip">Rekayasa Perangkat Lunak</span>
+          <span class="chip">Keamanan Sistem Informasi</span>
+        </div>
+      </div>
+      <div class="gpa-box">
+        <span class="num">3.71</span>
+        <span class="label">IPK · CUM LAUDE</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Keahlian</h2>
+      <span class="section-line"></span>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-cat">
+        <p class="cat-label">PENGEMBANGAN WEB</p>
+        <ul>
+          <li>PHP &amp; CodeIgniter</li>
+          <li>MySQL</li>
+          <li>HTML &amp; CSS</li>
+          <li>Python</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <p class="cat-label">IT SUPPORT</p>
+        <ul>
+          <li>Windows, macOS, Linux</li>
+          <li>Troubleshooting Perangkat</li>
+          <li>Manajemen Tiket/Laporan</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <p class="cat-label">DATA &amp; DOKUMEN</p>
+        <ul>
+          <li>Microsoft Excel (formula, data cleaning)</li>
+          <li>Microsoft Word (laporan &amp; proposal)</li>
+          <li>Administrasi Data</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section wrap">
+    <p class="contact-eyebrow reveal">— ADA POSISI YANG COCOK?</p>
+    <h2 class="contact-title reveal">Mari <span class="accent-word">ngobrol.</span></h2>
+    <a class="contact-email reveal" href="mailto:abelperkasa1@gmail.com">abelperkasa1@gmail.com</a>
+    <p class="contact-sub reveal">Atau lewat <a href="https://www.linkedin.com/in/abigail-perkasa" target="_blank" rel="noopener">LinkedIn</a></p>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Abigail Perkasa</span>
+    <span>Dibangun dengan PHP di kepala, HTML di tangan.</span>
+  </div>
+</footer>
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const items = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.15});
+    items.forEach(el=>io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
