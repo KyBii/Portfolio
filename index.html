@@ -34,6 +34,27 @@
     *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
   }
 
+  /* ---------- Scroll progress bar ---------- */
+  .scroll-progress{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:linear-gradient(90deg, var(--gold), var(--teal));
+    z-index:100;
+    transition:width .08s linear;
+  }
+
+  /* ---------- Cursor glow (desktop only) ---------- */
+  .cursor-glow{
+    position:fixed;
+    top:0; left:0;
+    width:340px; height:340px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(79,209,197,0.10) 0%, rgba(79,209,197,0) 70%);
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:1;
+    will-change:transform;
+  }
+
   body{
     margin:0;
     background:var(--bg-0);
@@ -74,16 +95,18 @@
     justify-content:space-between;
   }
   .monogram{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:20px;
-    letter-spacing:0.02em;
+    font-family:var(--mono);
+    font-weight:500;
+    font-size:16px;
+    letter-spacing:0.01em;
     text-decoration:none;
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:2px;
+    color:var(--text);
   }
-  .monogram .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;}
+  .monogram .tag{color:var(--gold);}
+  .monogram:hover .tag{color:var(--teal);}
   nav.links{display:flex; gap:28px; align-items:center;}
   nav.links a{
     font-family:var(--mono);
@@ -123,12 +146,44 @@
     width:min(64vw, 900px);
     height:auto;
     opacity:0.9;
-    pointer-events:none;
+    cursor:pointer;
   }
-  .hero-bg line{stroke:var(--line); stroke-width:1; opacity:0.55;}
-  .hero-bg circle.n-organic{fill:var(--muted-2);}
+  .hero-bg line{stroke:var(--line); stroke-width:1; opacity:0.55; transition:opacity .8s ease;}
+  .hero-bg .lines-organized{opacity:0;}
+  .hero-bg.organized .lines-organic,
+  .hero-bg.organized .lines-bridge{opacity:0;}
+  .hero-bg.organized .lines-organized{opacity:0.6;}
+  .hero-bg circle.n-organic{fill:var(--muted-2); transition:cx 1.5s cubic-bezier(.4,0,.2,1), cy 1.5s cubic-bezier(.4,0,.2,1);}
   .hero-bg circle.n-grid{fill:var(--teal); opacity:0.55;}
   .hero-bg circle.accent{fill:var(--gold);}
+  .hero-bg.organized circle.n-organic.accent{fill:var(--teal);}
+
+  .hero-hint{
+    position:absolute;
+    z-index:3;
+    right:32px;
+    bottom:28px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted-2);
+    letter-spacing:0.03em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    pointer-events:none;
+  }
+  .hero-hint .pulse-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:0.4; transform:scale(0.9);}
+    50%{opacity:1; transform:scale(1.15);}
+  }
+  @media (max-width:900px){
+    .hero-hint{display:none;}
+  }
 
   .hero-inner{
     position:relative;
@@ -440,6 +495,177 @@
     color:var(--muted-2);
   }
 
+  /* ---------- Typed role rotator ---------- */
+  .role-rotator{
+    display:inline-block;
+    color:var(--teal);
+    border-right:2px solid var(--teal);
+    padding-right:3px;
+    animation:blink .8s step-end infinite;
+    min-width:1ch;
+  }
+  @keyframes blink{50%{border-color:transparent;}}
+
+  /* ---------- Contact modal ---------- */
+  .modal-backdrop{
+    display:none;
+    position:fixed; inset:0; z-index:200;
+    background:rgba(8,13,26,0.85);
+    backdrop-filter:blur(6px);
+    align-items:center;
+    justify-content:center;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:44px 48px;
+    max-width:480px;
+    width:90%;
+    position:relative;
+    animation:modal-in .25s ease;
+  }
+  @keyframes modal-in{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  .modal h2{
+    font-family:var(--display);
+    font-size:26px; margin:0 0 6px;
+  }
+  .modal p{color:var(--muted); font-size:15px; margin:0 0 28px;}
+  .modal-close{
+    position:absolute; top:18px; right:18px;
+    background:none; border:none; cursor:pointer;
+    color:var(--muted); font-size:22px; line-height:1;
+    padding:4px 8px; border-radius:4px;
+    transition:color .15s;
+  }
+  .modal-close:hover{color:var(--text);}
+  .contact-links{display:flex; flex-direction:column; gap:12px;}
+  .contact-link{
+    display:flex; align-items:center; gap:14px;
+    padding:16px 18px;
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    text-decoration:none;
+    color:var(--text);
+    font-size:15px;
+    transition:border-color .2s, background .2s;
+    position:relative;
+  }
+  .contact-link:hover{border-color:var(--teal); background:rgba(79,209,197,0.06);}
+  .contact-link .icon{font-size:22px; width:28px; text-align:center;}
+  .contact-link .lbl{flex:1;}
+  .contact-link .val{font-family:var(--mono); font-size:13px; color:var(--muted);}
+  .contact-link .copy-btn{
+    font-family:var(--mono); font-size:11px; color:var(--muted);
+    background:var(--bg-1); border:1px solid var(--line);
+    border-radius:4px; padding:4px 10px; cursor:pointer;
+    transition:background .15s, color .15s;
+  }
+  .contact-link .copy-btn:hover{background:var(--teal); color:var(--bg-0); border-color:var(--teal);}
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(12px);
+    background:var(--teal); color:var(--bg-0);
+    font-family:var(--mono); font-size:13px;
+    padding:10px 20px; border-radius:6px;
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    z-index:300;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  /* ---------- Skill bars ---------- */
+  .skill-bars{display:flex; flex-direction:column; gap:14px;}
+  .skill-bar-row{display:grid; grid-template-columns:160px 1fr 36px; align-items:center; gap:14px;}
+  .skill-bar-row .name{font-size:14px; color:var(--text);}
+  .bar-track{
+    height:6px; background:var(--line-soft); border-radius:99px; overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:99px;
+    background:linear-gradient(90deg, var(--gold), var(--teal));
+    width:0%;
+    transition:width 1.2s cubic-bezier(.4,0,.2,1);
+  }
+  .skill-bar-row .pct{font-family:var(--mono); font-size:12px; color:var(--muted);}
+
+  /* ---------- Timeline ---------- */
+  .timeline{position:relative; padding-left:28px;}
+  .timeline::before{
+    content:''; position:absolute; left:7px; top:8px; bottom:8px;
+    width:1px; background:var(--line-soft);
+  }
+  .tl-item{position:relative; padding-bottom:32px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{
+    position:absolute; left:-28px; top:6px;
+    width:15px; height:15px; border-radius:50%;
+    border:2px solid var(--line);
+    background:var(--bg-0);
+    transition:border-color .3s, background .3s;
+    cursor:pointer;
+  }
+  .tl-item:hover .tl-dot{border-color:var(--teal); background:var(--teal);}
+  .tl-period{font-family:var(--mono); font-size:12px; color:var(--muted); margin-bottom:4px;}
+  .tl-role{font-family:var(--display); font-weight:600; font-size:18px; margin:0 0 2px;}
+  .tl-org{color:var(--teal); font-size:14px; margin:0 0 8px;}
+  .tl-body{font-size:14.5px; color:var(--muted); margin:0; max-height:0; overflow:hidden; transition:max-height .4s ease;}
+  .tl-item.open .tl-body{max-height:400px;}
+  .tl-toggle{
+    font-family:var(--mono); font-size:12px; color:var(--muted);
+    background:none; border:none; cursor:pointer; padding:0; margin-top:6px;
+    transition:color .15s;
+  }
+  .tl-toggle:hover{color:var(--teal);}
+
+  /* ---------- Fun stats counter ---------- */
+  .fun-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--line-soft);
+    border:1px solid var(--line-soft);
+    border-radius:12px;
+    overflow:hidden;
+    margin-top:48px;
+  }
+  .fun-stat{
+    background:var(--panel);
+    padding:28px 22px;
+    text-align:center;
+  }
+  .fun-stat .num{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:36px;
+    color:var(--gold);
+    display:block;
+  }
+  .fun-stat .lbl{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:0.04em;
+    margin-top:4px;
+  }
+  @media(max-width:640px){.fun-stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- "Back to top" button ---------- */
+  .btt{
+    position:fixed; bottom:28px; right:28px; z-index:60;
+    width:44px; height:44px; border-radius:50%;
+    background:var(--panel); border:1px solid var(--line);
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:18px; color:var(--muted);
+    opacity:0; pointer-events:none;
+    transition:opacity .3s, border-color .2s, color .2s;
+  }
+  .btt.visible{opacity:1; pointer-events:auto;}
+  .btt:hover{border-color:var(--teal); color:var(--teal);}
+
   /* ---------- Reveal on scroll ---------- */
   .reveal{
     opacity:0;
@@ -450,40 +676,51 @@
 </style>
 </head>
 <body>
+<div class="scroll-progress" id="sp"></div>
+<div class="cursor-glow" id="cg"></div>
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Kembali ke atas">↑</button>
+<div class="toast" id="toast">Disalin!</div>
 
 <header class="site-nav">
   <div class="nav-inner">
-    <a href="#top" class="monogram"><span class="dot"></span>AP</a>
+    <a href="#top" class="monogram"><span class="tag">&lt;</span>abigail.dev<span class="tag">/&gt;</span></a>
     <nav class="links">
       <a href="#about">Tentang</a>
       <a href="#work">Pengalaman</a>
       <a href="#education">Pendidikan</a>
       <a href="#skills">Keahlian</a>
-      <a href="mailto:abelperkasa1@gmail.com" class="nav-cta">Hubungi Saya</a>
+      <a href="#" class="nav-cta" onclick="openModal(event)">Hubungi Saya</a>
     </nav>
   </div>
 </header>
 
 <main id="top">
   <section class="hero">
-    <svg class="hero-bg" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <line x1="230.0" y1="499.0" x2="235.6" y2="456.4"/><line x1="230.0" y1="499.0" x2="258.0" y2="565.0"/><line x1="235.6" y1="456.4" x2="230.0" y2="499.0"/><line x1="235.6" y1="456.4" x2="234.9" y2="401.2"/><line x1="117.6" y1="459.8" x2="46.3" y2="473.3"/><line x1="117.6" y1="459.8" x2="235.6" y2="456.4"/><line x1="373.1" y1="117.2" x2="358.4" y2="136.8"/><line x1="78.1" y1="703.9" x2="128.1" y2="786.4"/><line x1="57.6" y1="845.4" x2="128.1" y2="786.4"/><line x1="314.6" y1="544.8" x2="258.0" y2="565.0"/><line x1="314.6" y1="544.8" x2="230.0" y2="499.0"/><line x1="46.3" y1="473.3" x2="117.6" y2="459.8"/><line x1="119.9" y1="238.4" x2="76.6" y2="312.7"/><line x1="234.9" y1="401.2" x2="235.6" y2="456.4"/><line x1="234.9" y1="401.2" x2="318.2" y2="415.0"/><line x1="258.0" y1="565.0" x2="314.6" y2="544.8"/><line x1="258.0" y1="565.0" x2="230.0" y2="499.0"/><line x1="318.2" y1="415.0" x2="234.9" y2="401.2"/><line x1="318.2" y1="415.0" x2="235.6" y2="456.4"/><line x1="459.0" y1="856.5" x2="520.0" y2="757.5"/><line x1="459.0" y1="856.5" x2="442.4" y2="734.8"/><line x1="337.3" y1="298.5" x2="318.2" y2="415.0"/><line x1="208.2" y1="734.2" x2="128.1" y2="786.4"/><line x1="208.2" y1="734.2" x2="304.4" y2="678.4"/><line x1="442.4" y1="734.8" x2="520.0" y2="757.5"/><line x1="442.4" y1="734.8" x2="520.0" y2="655.0"/><line x1="128.1" y1="786.4" x2="57.6" y2="845.4"/><line x1="128.1" y1="786.4" x2="208.2" y2="734.2"/><line x1="451.8" y1="365.9" x2="520.0" y2="347.5"/><line x1="451.8" y1="365.9" x2="520.0" y2="450.0"/><line x1="304.4" y1="678.4" x2="208.2" y2="734.2"/><line x1="304.4" y1="678.4" x2="258.0" y2="565.0"/><line x1="76.6" y1="312.7" x2="119.9" y2="238.4"/><line x1="358.4" y1="136.8" x2="373.1" y2="117.2"/><line x1="520.0" y1="245.0" x2="588.0" y2="245.0"/><line x1="520.0" y1="245.0" x2="520.0" y2="347.5"/><line x1="520.0" y1="347.5" x2="588.0" y2="347.5"/><line x1="520.0" y1="347.5" x2="451.8" y2="365.9"/><line x1="520.0" y1="450.0" x2="588.0" y2="450.0"/><line x1="520.0" y1="450.0" x2="520.0" y2="347.5"/><line x1="520.0" y1="552.5" x2="588.0" y2="552.5"/><line x1="520.0" y1="552.5" x2="520.0" y2="450.0"/><line x1="520.0" y1="655.0" x2="588.0" y2="655.0"/><line x1="520.0" y1="655.0" x2="520.0" y2="552.5"/><line x1="520.0" y1="757.5" x2="588.0" y2="757.5"/><line x1="520.0" y1="757.5" x2="442.4" y2="734.8"/><line x1="588.0" y1="40.0" x2="656.0" y2="40.0"/><line x1="588.0" y1="40.0" x2="656.0" y2="142.5"/><line x1="588.0" y1="245.0" x2="520.0" y2="245.0"/><line x1="588.0" y1="245.0" x2="656.0" y2="245.0"/><line x1="588.0" y1="347.5" x2="520.0" y2="347.5"/><line x1="588.0" y1="347.5" x2="656.0" y2="347.5"/><line x1="588.0" y1="450.0" x2="520.0" y2="450.0"/><line x1="588.0" y1="450.0" x2="588.0" y2="347.5"/><line x1="588.0" y1="552.5" x2="520.0" y2="552.5"/><line x1="588.0" y1="552.5" x2="656.0" y2="552.5"/><line x1="588.0" y1="655.0" x2="520.0" y2="655.0"/><line x1="588.0" y1="655.0" x2="656.0" y2="655.0"/><line x1="588.0" y1="757.5" x2="520.0" y2="757.5"/><line x1="588.0" y1="757.5" x2="656.0" y2="757.5"/><line x1="588.0" y1="860.0" x2="656.0" y2="860.0"/><line x1="588.0" y1="860.0" x2="588.0" y2="757.5"/><line x1="656.0" y1="40.0" x2="588.0" y2="40.0"/><line x1="656.0" y1="40.0" x2="724.0" y2="40.0"/><line x1="656.0" y1="142.5" x2="724.0" y2="142.5"/><line x1="656.0" y1="142.5" x2="656.0" y2="40.0"/><line x1="656.0" y1="245.0" x2="588.0" y2="245.0"/><line x1="656.0" y1="245.0" x2="656.0" y2="142.5"/><line x1="656.0" y1="347.5" x2="588.0" y2="347.5"/><line x1="656.0" y1="347.5" x2="656.0" y2="245.0"/><line x1="656.0" y1="552.5" x2="588.0" y2="552.5"/><line x1="656.0" y1="552.5" x2="724.0" y2="552.5"/><line x1="656.0" y1="655.0" x2="588.0" y2="655.0"/><line x1="656.0" y1="655.0" x2="724.0" y2="655.0"/><line x1="656.0" y1="757.5" x2="588.0" y2="757.5"/><line x1="656.0" y1="757.5" x2="724.0" y2="757.5"/><line x1="656.0" y1="860.0" x2="588.0" y2="860.0"/><line x1="656.0" y1="860.0" x2="724.0" y2="860.0"/><line x1="724.0" y1="40.0" x2="656.0" y2="40.0"/><line x1="724.0" y1="40.0" x2="792.0" y2="40.0"/><line x1="724.0" y1="142.5" x2="656.0" y2="142.5"/><line x1="724.0" y1="142.5" x2="792.0" y2="142.5"/><line x1="724.0" y1="450.0" x2="792.0" y2="450.0"/><line x1="724.0" y1="450.0" x2="724.0" y2="552.5"/><line x1="724.0" y1="552.5" x2="656.0" y2="552.5"/><line x1="724.0" y1="552.5" x2="724.0" y2="450.0"/><line x1="724.0" y1="655.0" x2="656.0" y2="655.0"/><line x1="724.0" y1="655.0" x2="792.0" y2="655.0"/><line x1="724.0" y1="757.5" x2="656.0" y2="757.5"/><line x1="724.0" y1="757.5" x2="792.0" y2="757.5"/><line x1="724.0" y1="860.0" x2="656.0" y2="860.0"/><line x1="724.0" y1="860.0" x2="792.0" y2="860.0"/><line x1="792.0" y1="40.0" x2="724.0" y2="40.0"/><line x1="792.0" y1="40.0" x2="860.0" y2="40.0"/><line x1="792.0" y1="142.5" x2="724.0" y2="142.5"/><line x1="792.0" y1="142.5" x2="860.0" y2="142.5"/><line x1="792.0" y1="245.0" x2="860.0" y2="245.0"/><line x1="792.0" y1="245.0" x2="792.0" y2="142.5"/><line x1="792.0" y1="347.5" x2="860.0" y2="347.5"/><line x1="792.0" y1="347.5" x2="792.0" y2="245.0"/><line x1="792.0" y1="450.0" x2="724.0" y2="450.0"/><line x1="792.0" y1="450.0" x2="860.0" y2="450.0"/><line x1="792.0" y1="655.0" x2="724.0" y2="655.0"/><line x1="792.0" y1="655.0" x2="860.0" y2="655.0"/><line x1="792.0" y1="757.5" x2="724.0" y2="757.5"/><line x1="792.0" y1="757.5" x2="860.0" y2="757.5"/><line x1="792.0" y1="860.0" x2="724.0" y2="860.0"/><line x1="792.0" y1="860.0" x2="792.0" y2="757.5"/><line x1="860.0" y1="40.0" x2="792.0" y2="40.0"/><line x1="860.0" y1="40.0" x2="860.0" y2="142.5"/><line x1="860.0" y1="142.5" x2="792.0" y2="142.5"/><line x1="860.0" y1="142.5" x2="860.0" y2="40.0"/><line x1="860.0" y1="245.0" x2="792.0" y2="245.0"/><line x1="860.0" y1="245.0" x2="860.0" y2="142.5"/><line x1="860.0" y1="347.5" x2="792.0" y2="347.5"/><line x1="860.0" y1="347.5" x2="860.0" y2="245.0"/><line x1="860.0" y1="450.0" x2="792.0" y2="450.0"/><line x1="860.0" y1="450.0" x2="860.0" y2="347.5"/><line x1="860.0" y1="552.5" x2="860.0" y2="450.0"/><line x1="860.0" y1="552.5" x2="860.0" y2="655.0"/><line x1="860.0" y1="655.0" x2="792.0" y2="655.0"/><line x1="860.0" y1="655.0" x2="860.0" y2="552.5"/><line x1="860.0" y1="757.5" x2="792.0" y2="757.5"/><line x1="860.0" y1="757.5" x2="860.0" y2="655.0"/><circle class="n-organic" cx="230.0" cy="499.0" r="5.7"/><circle class="n-organic" cx="235.6" cy="456.4" r="4.6"/><circle class="n-organic" cx="117.6" cy="459.8" r="4.7"/><circle class="n-organic" cx="373.1" cy="117.2" r="3.6"/><circle class="n-organic" cx="78.1" cy="703.9" r="4.9"/><circle class="n-organic" cx="57.6" cy="845.4" r="5.9"/><circle class="n-organic accent" cx="314.6" cy="544.8" r="3.1"/><circle class="n-organic" cx="46.3" cy="473.3" r="2.7"/><circle class="n-organic" cx="119.9" cy="238.4" r="2.6"/><circle class="n-organic" cx="234.9" cy="401.2" r="5.4"/><circle class="n-organic accent" cx="258.0" cy="565.0" r="4.2"/><circle class="n-organic" cx="318.2" cy="415.0" r="3.5"/><circle class="n-organic" cx="459.0" cy="856.5" r="5.4"/><circle class="n-organic" cx="337.3" cy="298.5" r="3.3"/><circle class="n-organic" cx="161.4" cy="97.6" r="5.2"/><circle class="n-organic" cx="208.2" cy="734.2" r="3.9"/><circle class="n-organic" cx="442.4" cy="734.8" r="2.5"/><circle class="n-organic accent" cx="128.1" cy="786.4" r="4.1"/><circle class="n-organic" cx="451.8" cy="365.9" r="2.8"/><circle class="n-organic" cx="304.4" cy="678.4" r="3.4"/><circle class="n-organic" cx="76.6" cy="312.7" r="5.9"/><circle class="n-organic" cx="358.4" cy="136.8" r="3.4"/><circle class="n-grid" cx="520.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="520.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="520.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="520.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="520.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="792.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="792.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="757.5" r="2.4"/>
+    <svg class="hero-bg" id="heroSvg" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg" aria-label="Klik untuk mengorganisir jaringan" role="img" onclick="toggleOrganize()">
+      <g class="lines-grid"><line x1="520.0" y1="245.0" x2="588.0" y2="245.0"/><line x1="520.0" y1="245.0" x2="520.0" y2="347.5"/><line x1="520.0" y1="347.5" x2="588.0" y2="347.5"/><line x1="520.0" y1="450.0" x2="588.0" y2="450.0"/><line x1="520.0" y1="450.0" x2="520.0" y2="347.5"/><line x1="520.0" y1="552.5" x2="588.0" y2="552.5"/><line x1="520.0" y1="552.5" x2="520.0" y2="450.0"/><line x1="520.0" y1="655.0" x2="588.0" y2="655.0"/><line x1="520.0" y1="655.0" x2="520.0" y2="552.5"/><line x1="520.0" y1="757.5" x2="588.0" y2="757.5"/><line x1="588.0" y1="40.0" x2="656.0" y2="40.0"/><line x1="588.0" y1="40.0" x2="656.0" y2="142.5"/><line x1="588.0" y1="245.0" x2="520.0" y2="245.0"/><line x1="588.0" y1="245.0" x2="656.0" y2="245.0"/><line x1="588.0" y1="347.5" x2="520.0" y2="347.5"/><line x1="588.0" y1="347.5" x2="656.0" y2="347.5"/><line x1="588.0" y1="450.0" x2="520.0" y2="450.0"/><line x1="588.0" y1="450.0" x2="588.0" y2="347.5"/><line x1="588.0" y1="552.5" x2="520.0" y2="552.5"/><line x1="588.0" y1="552.5" x2="656.0" y2="552.5"/><line x1="588.0" y1="655.0" x2="520.0" y2="655.0"/><line x1="588.0" y1="655.0" x2="656.0" y2="655.0"/><line x1="588.0" y1="757.5" x2="520.0" y2="757.5"/><line x1="588.0" y1="757.5" x2="656.0" y2="757.5"/><line x1="588.0" y1="860.0" x2="656.0" y2="860.0"/><line x1="588.0" y1="860.0" x2="588.0" y2="757.5"/><line x1="656.0" y1="40.0" x2="588.0" y2="40.0"/><line x1="656.0" y1="40.0" x2="724.0" y2="40.0"/><line x1="656.0" y1="142.5" x2="724.0" y2="142.5"/><line x1="656.0" y1="142.5" x2="656.0" y2="40.0"/><line x1="656.0" y1="245.0" x2="588.0" y2="245.0"/><line x1="656.0" y1="245.0" x2="656.0" y2="142.5"/><line x1="656.0" y1="347.5" x2="588.0" y2="347.5"/><line x1="656.0" y1="347.5" x2="656.0" y2="245.0"/><line x1="656.0" y1="552.5" x2="588.0" y2="552.5"/><line x1="656.0" y1="552.5" x2="724.0" y2="552.5"/><line x1="656.0" y1="655.0" x2="588.0" y2="655.0"/><line x1="656.0" y1="655.0" x2="724.0" y2="655.0"/><line x1="656.0" y1="757.5" x2="588.0" y2="757.5"/><line x1="656.0" y1="757.5" x2="724.0" y2="757.5"/><line x1="656.0" y1="860.0" x2="588.0" y2="860.0"/><line x1="656.0" y1="860.0" x2="724.0" y2="860.0"/><line x1="724.0" y1="40.0" x2="656.0" y2="40.0"/><line x1="724.0" y1="40.0" x2="792.0" y2="40.0"/><line x1="724.0" y1="142.5" x2="656.0" y2="142.5"/><line x1="724.0" y1="142.5" x2="792.0" y2="142.5"/><line x1="724.0" y1="450.0" x2="792.0" y2="450.0"/><line x1="724.0" y1="450.0" x2="724.0" y2="552.5"/><line x1="724.0" y1="552.5" x2="656.0" y2="552.5"/><line x1="724.0" y1="552.5" x2="724.0" y2="450.0"/><line x1="724.0" y1="655.0" x2="656.0" y2="655.0"/><line x1="724.0" y1="655.0" x2="792.0" y2="655.0"/><line x1="724.0" y1="757.5" x2="656.0" y2="757.5"/><line x1="724.0" y1="757.5" x2="792.0" y2="757.5"/><line x1="724.0" y1="860.0" x2="656.0" y2="860.0"/><line x1="724.0" y1="860.0" x2="792.0" y2="860.0"/><line x1="792.0" y1="40.0" x2="724.0" y2="40.0"/><line x1="792.0" y1="40.0" x2="860.0" y2="40.0"/><line x1="792.0" y1="142.5" x2="724.0" y2="142.5"/><line x1="792.0" y1="142.5" x2="860.0" y2="142.5"/><line x1="792.0" y1="245.0" x2="860.0" y2="245.0"/><line x1="792.0" y1="245.0" x2="792.0" y2="142.5"/><line x1="792.0" y1="347.5" x2="860.0" y2="347.5"/><line x1="792.0" y1="347.5" x2="792.0" y2="245.0"/><line x1="792.0" y1="450.0" x2="724.0" y2="450.0"/><line x1="792.0" y1="450.0" x2="860.0" y2="450.0"/><line x1="792.0" y1="655.0" x2="724.0" y2="655.0"/><line x1="792.0" y1="655.0" x2="860.0" y2="655.0"/><line x1="792.0" y1="757.5" x2="724.0" y2="757.5"/><line x1="792.0" y1="757.5" x2="860.0" y2="757.5"/><line x1="792.0" y1="860.0" x2="724.0" y2="860.0"/><line x1="792.0" y1="860.0" x2="792.0" y2="757.5"/><line x1="860.0" y1="40.0" x2="792.0" y2="40.0"/><line x1="860.0" y1="40.0" x2="860.0" y2="142.5"/><line x1="860.0" y1="142.5" x2="792.0" y2="142.5"/><line x1="860.0" y1="142.5" x2="860.0" y2="40.0"/><line x1="860.0" y1="245.0" x2="792.0" y2="245.0"/><line x1="860.0" y1="245.0" x2="860.0" y2="142.5"/><line x1="860.0" y1="347.5" x2="792.0" y2="347.5"/><line x1="860.0" y1="347.5" x2="860.0" y2="245.0"/><line x1="860.0" y1="450.0" x2="792.0" y2="450.0"/><line x1="860.0" y1="450.0" x2="860.0" y2="347.5"/><line x1="860.0" y1="552.5" x2="860.0" y2="450.0"/><line x1="860.0" y1="552.5" x2="860.0" y2="655.0"/><line x1="860.0" y1="655.0" x2="792.0" y2="655.0"/><line x1="860.0" y1="655.0" x2="860.0" y2="552.5"/><line x1="860.0" y1="757.5" x2="792.0" y2="757.5"/><line x1="860.0" y1="757.5" x2="860.0" y2="655.0"/></g>
+<g class="lines-organic"><line x1="230.0" y1="499.0" x2="235.6" y2="456.4"/><line x1="230.0" y1="499.0" x2="258.0" y2="565.0"/><line x1="235.6" y1="456.4" x2="230.0" y2="499.0"/><line x1="235.6" y1="456.4" x2="234.9" y2="401.2"/><line x1="117.6" y1="459.8" x2="46.3" y2="473.3"/><line x1="117.6" y1="459.8" x2="235.6" y2="456.4"/><line x1="373.1" y1="117.2" x2="358.4" y2="136.8"/><line x1="78.1" y1="703.9" x2="128.1" y2="786.4"/><line x1="57.6" y1="845.4" x2="128.1" y2="786.4"/><line x1="314.6" y1="544.8" x2="258.0" y2="565.0"/><line x1="314.6" y1="544.8" x2="230.0" y2="499.0"/><line x1="46.3" y1="473.3" x2="117.6" y2="459.8"/><line x1="119.9" y1="238.4" x2="76.6" y2="312.7"/><line x1="234.9" y1="401.2" x2="235.6" y2="456.4"/><line x1="234.9" y1="401.2" x2="318.2" y2="415.0"/><line x1="258.0" y1="565.0" x2="314.6" y2="544.8"/><line x1="258.0" y1="565.0" x2="230.0" y2="499.0"/><line x1="318.2" y1="415.0" x2="234.9" y2="401.2"/><line x1="318.2" y1="415.0" x2="235.6" y2="456.4"/><line x1="459.0" y1="856.5" x2="442.4" y2="734.8"/><line x1="337.3" y1="298.5" x2="318.2" y2="415.0"/><line x1="208.2" y1="734.2" x2="128.1" y2="786.4"/><line x1="208.2" y1="734.2" x2="304.4" y2="678.4"/><line x1="128.1" y1="786.4" x2="57.6" y2="845.4"/><line x1="128.1" y1="786.4" x2="208.2" y2="734.2"/><line x1="304.4" y1="678.4" x2="208.2" y2="734.2"/><line x1="304.4" y1="678.4" x2="258.0" y2="565.0"/><line x1="76.6" y1="312.7" x2="119.9" y2="238.4"/><line x1="358.4" y1="136.8" x2="373.1" y2="117.2"/></g>
+<g class="lines-bridge"><line x1="459.0" y1="856.5" x2="520.0" y2="757.5"/><line x1="442.4" y1="734.8" x2="520.0" y2="757.5"/><line x1="442.4" y1="734.8" x2="520.0" y2="655.0"/><line x1="451.8" y1="365.9" x2="520.0" y2="347.5"/><line x1="451.8" y1="365.9" x2="520.0" y2="450.0"/><line x1="520.0" y1="347.5" x2="451.8" y2="365.9"/><line x1="520.0" y1="757.5" x2="442.4" y2="734.8"/></g>
+<g class="lines-organized"><line x1="60.0" y1="60.0" x2="186.7" y2="60.0"/><line x1="60.0" y1="60.0" x2="60.0" y2="216.0"/><line x1="186.7" y1="60.0" x2="313.3" y2="60.0"/><line x1="186.7" y1="60.0" x2="186.7" y2="216.0"/><line x1="313.3" y1="60.0" x2="440.0" y2="60.0"/><line x1="313.3" y1="60.0" x2="313.3" y2="216.0"/><line x1="440.0" y1="60.0" x2="440.0" y2="216.0"/><line x1="60.0" y1="216.0" x2="186.7" y2="216.0"/><line x1="60.0" y1="216.0" x2="60.0" y2="372.0"/><line x1="186.7" y1="216.0" x2="313.3" y2="216.0"/><line x1="186.7" y1="216.0" x2="186.7" y2="372.0"/><line x1="313.3" y1="216.0" x2="440.0" y2="216.0"/><line x1="313.3" y1="216.0" x2="313.3" y2="372.0"/><line x1="440.0" y1="216.0" x2="440.0" y2="372.0"/><line x1="60.0" y1="372.0" x2="186.7" y2="372.0"/><line x1="60.0" y1="372.0" x2="60.0" y2="528.0"/><line x1="186.7" y1="372.0" x2="313.3" y2="372.0"/><line x1="186.7" y1="372.0" x2="186.7" y2="528.0"/><line x1="313.3" y1="372.0" x2="440.0" y2="372.0"/><line x1="313.3" y1="372.0" x2="313.3" y2="528.0"/><line x1="440.0" y1="372.0" x2="440.0" y2="528.0"/><line x1="60.0" y1="528.0" x2="186.7" y2="528.0"/><line x1="60.0" y1="528.0" x2="60.0" y2="684.0"/><line x1="186.7" y1="528.0" x2="313.3" y2="528.0"/><line x1="186.7" y1="528.0" x2="186.7" y2="684.0"/><line x1="313.3" y1="528.0" x2="440.0" y2="528.0"/><line x1="313.3" y1="528.0" x2="313.3" y2="684.0"/><line x1="440.0" y1="528.0" x2="440.0" y2="684.0"/><line x1="60.0" y1="684.0" x2="186.7" y2="684.0"/><line x1="60.0" y1="684.0" x2="60.0" y2="840.0"/><line x1="186.7" y1="684.0" x2="313.3" y2="684.0"/><line x1="186.7" y1="684.0" x2="186.7" y2="840.0"/><line x1="313.3" y1="684.0" x2="440.0" y2="684.0"/><line x1="60.0" y1="840.0" x2="186.7" y2="840.0"/></g>
+<g class="dots-grid"><circle class="n-grid" cx="520.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="520.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="520.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="520.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="520.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="520.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="588.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="588.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="656.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="656.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="724.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="724.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="792.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="792.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="792.0" cy="757.5" r="2.4"/><circle class="n-grid" cx="792.0" cy="860.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="40.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="142.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="245.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="347.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="450.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="552.5" r="2.4"/><circle class="n-grid" cx="860.0" cy="655.0" r="2.4"/><circle class="n-grid" cx="860.0" cy="757.5" r="2.4"/></g>
+<g class="dots-organic"><circle class="n-organic" id="on0" cx="230.0" cy="499.0" r="5.7" data-ox="230.0" data-oy="499.0" data-tx="60.0" data-ty="528.0"/><circle class="n-organic" id="on1" cx="235.6" cy="456.4" r="4.6" data-ox="235.6" data-oy="456.4" data-tx="186.7" data-ty="372.0"/><circle class="n-organic" id="on2" cx="117.6" cy="459.8" r="4.7" data-ox="117.6" data-oy="459.8" data-tx="313.3" data-ty="372.0"/><circle class="n-organic" id="on3" cx="373.1" cy="117.2" r="3.6" data-ox="373.1" data-oy="117.2" data-tx="186.7" data-ty="60.0"/><circle class="n-organic" id="on4" cx="78.1" cy="703.9" r="4.9" data-ox="78.1" data-oy="703.9" data-tx="60.0" data-ty="684.0"/><circle class="n-organic" id="on5" cx="57.6" cy="845.4" r="5.9" data-ox="57.6" data-oy="845.4" data-tx="60.0" data-ty="840.0"/><circle class="n-organic accent" id="on6" cx="314.6" cy="544.8" r="3.1" data-ox="314.6" data-oy="544.8" data-tx="186.7" data-ty="528.0"/><circle class="n-organic" id="on7" cx="46.3" cy="473.3" r="2.7" data-ox="46.3" data-oy="473.3" data-tx="440.0" data-ty="372.0"/><circle class="n-organic" id="on8" cx="119.9" cy="238.4" r="2.6" data-ox="119.9" data-oy="238.4" data-tx="440.0" data-ty="60.0"/><circle class="n-organic" id="on9" cx="234.9" cy="401.2" r="5.4" data-ox="234.9" data-oy="401.2" data-tx="440.0" data-ty="216.0"/><circle class="n-organic accent" id="on10" cx="258.0" cy="565.0" r="4.2" data-ox="258.0" data-oy="565.0" data-tx="313.3" data-ty="528.0"/><circle class="n-organic" id="on11" cx="318.2" cy="415.0" r="3.5" data-ox="318.2" data-oy="415.0" data-tx="60.0" data-ty="372.0"/><circle class="n-organic" id="on12" cx="459.0" cy="856.5" r="5.4" data-ox="459.0" data-oy="856.5" data-tx="186.7" data-ty="840.0"/><circle class="n-organic" id="on13" cx="337.3" cy="298.5" r="3.3" data-ox="337.3" data-oy="298.5" data-tx="60.0" data-ty="216.0"/><circle class="n-organic" id="on14" cx="161.4" cy="97.6" r="5.2" data-ox="161.4" data-oy="97.6" data-tx="60.0" data-ty="60.0"/><circle class="n-organic" id="on15" cx="208.2" cy="734.2" r="3.9" data-ox="208.2" data-oy="734.2" data-tx="186.7" data-ty="684.0"/><circle class="n-organic" id="on16" cx="442.4" cy="734.8" r="2.5" data-ox="442.4" data-oy="734.8" data-tx="313.3" data-ty="684.0"/><circle class="n-organic accent" id="on17" cx="128.1" cy="786.4" r="4.1" data-ox="128.1" data-oy="786.4" data-tx="440.0" data-ty="684.0"/><circle class="n-organic" id="on18" cx="451.8" cy="365.9" r="2.8" data-ox="451.8" data-oy="365.9" data-tx="313.3" data-ty="216.0"/><circle class="n-organic" id="on19" cx="304.4" cy="678.4" r="3.4" data-ox="304.4" data-oy="678.4" data-tx="440.0" data-ty="528.0"/><circle class="n-organic" id="on20" cx="76.6" cy="312.7" r="5.9" data-ox="76.6" data-oy="312.7" data-tx="186.7" data-ty="216.0"/><circle class="n-organic" id="on21" cx="358.4" cy="136.8" r="3.4" data-ox="358.4" data-oy="136.8" data-tx="313.3" data-ty="60.0"/></g>
     </svg>
 
     <div class="wrap hero-inner">
       <p class="eyebrow"><span class="rule"></span>INFORMATICS GRADUATE · SUMBAWA, NTB</p>
-      <h1 class="headline">Open to work,<br><span class="accent-word">closed to drama.</span></h1>
+      <h1 class="headline">Open to work,<br><span class="accent-word"><span id="roleText">closed to drama.</span></span></h1>
       <p class="hero-sub">Saya <strong>Abigail Perkasa</strong> — lulusan S1 Informatika dengan pengalaman membangun sistem berbasis web dan menangani dukungan IT. Terbiasa mengubah data administratif yang berantakan jadi sistem yang benar-benar dipakai orang.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="mailto:abelperkasa1@gmail.com">Kirim Email</a>
-        <a class="btn btn-ghost" href="#work">Lihat Pengalaman</a>
+        <a class="btn btn-primary" href="#" onclick="openModal(event)">Hubungi Saya ✉</a>
+        <a class="btn btn-ghost" href="#work">Lihat Pengalaman →</a>
       </div>
       <div class="hero-facts">
-        <div class="fact"><span class="num">3.71</span><span class="label">IPK · CUM LAUDE</span></div>
-        <div class="fact"><span class="num">2024</span><span class="label">LULUS S1 INFORMATIKA</span></div>
-        <div class="fact"><span class="num">1</span><span class="label">SISTEM DESA DIBANGUN & DIPAKAI</span></div>
+        <div class="fact"><span class="num" data-target="3.71" data-decimal="2">0</span><span class="label">IPK · CUM LAUDE</span></div>
+        <div class="fact"><span class="num" data-target="4" data-decimal="0">0</span><span class="label">TAHUN KULIAH</span></div>
+        <div class="fact"><span class="num" data-target="52" data-decimal="0">0</span><span class="label">MATA KULIAH LULUS</span></div>
+        <div class="fact"><span class="num" data-target="1" data-decimal="0">0</span><span class="label">SISTEM DESA DIPAKAI</span></div>
       </div>
     </div>
+    <div class="hero-hint"><span class="pulse-dot"></span>Klik grafik untuk mengorganisir data</div>
   </section>
 
   <section id="about" class="wrap">
@@ -516,52 +753,61 @@
       <h2 class="section-title">Pengalaman &amp; Proyek</h2>
       <span class="section-line"></span>
     </div>
-    <div class="work-list reveal">
+    <div class="timeline reveal">
 
-      <article class="work-card work-highlight">
-        <div class="work-meta">
-          <span class="featured-tag">PROYEK CAPSTONE</span>
-          <h3 class="work-role">Sistem Informasi Desa Maronge</h3>
-          <p class="work-org">Full-Stack Developer (Independent Project)</p>
-          <p class="work-period">Okt 2022 – Jan 2023 · Sumbawa</p>
-        </div>
-        <div class="work-body">
+      <div class="tl-item open">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Okt 2022 – Jan 2023</p>
+        <h3 class="tl-role">Sistem Informasi Desa Maronge</h3>
+        <p class="tl-org">Full-Stack Developer · Proyek Capstone</p>
+        <div class="tl-body">
           <p><strong style="color:var(--text)">Masalah:</strong> warga Desa Maronge kesulitan mengakses informasi desa — pengumuman, data kependudukan, dan peta wilayah masih tersebar dan tidak terdokumentasi secara digital.</p>
-          <p><strong style="color:var(--text)">Yang dibangun:</strong> sistem informasi berbasis web dengan fitur berita desa, pengumuman, peta wilayah interaktif, dan data kependudukan/rumah tangga — dirancang dan dibangun dari nol.</p>
-          <p><strong style="color:var(--text)">Hasil:</strong> warga bisa mengakses informasi desa lebih cepat dan mudah secara daring, tanpa harus datang langsung ke kantor desa untuk hal-hal dasar.</p>
-          <div class="work-stack">
+          <p><strong style="color:var(--text)">Yang dibangun:</strong> sistem informasi berbasis web dengan fitur berita desa, pengumuman, peta wilayah interaktif, dan data kependudukan — dirancang dan dibangun dari nol.</p>
+          <div class="work-stack" style="margin-top:12px;">
             <span class="chip">PHP</span><span class="chip">CodeIgniter</span><span class="chip">MySQL</span><span class="chip">HTML/CSS</span>
           </div>
         </div>
-      </article>
+        <button class="tl-toggle" onclick="tlToggle(this)">▲ Sembunyikan</button>
+      </div>
 
-      <article class="work-card">
-        <div class="work-meta">
-          <h3 class="work-role">IT Support</h3>
-          <p class="work-org">PT Bumi Daya Plaza at BNI</p>
-          <p class="work-period">Okt 2025 – Des 2025 · Sumbawa</p>
-        </div>
-        <div class="work-body">
-          <p>Menangani instalasi, konfigurasi, dan perbaikan sistem operasi (Windows, macOS, Linux) untuk mendukung operasional kantor. Meninjau, memprioritaskan, dan menyelesaikan laporan kerusakan dari pengguna berdasarkan tingkat urgensi.</p>
-          <div class="work-stack">
-            <span class="chip">Troubleshooting</span><span class="chip">Sistem Operasi</span><span class="chip">Layanan Pengguna</span>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Okt 2025 – Des 2025</p>
+        <h3 class="tl-role">IT Support</h3>
+        <p class="tl-org">PT Bumi Daya Plaza at BNI · Sumbawa</p>
+        <div class="tl-body">
+          <p>Instalasi, konfigurasi, dan perbaikan sistem operasi (Windows, macOS, Linux). Menangani laporan kerusakan dari pengguna berdasarkan tingkat urgensi.</p>
+          <div class="work-stack" style="margin-top:12px;">
+            <span class="chip">Troubleshooting</span><span class="chip">OS Support</span><span class="chip">Helpdesk</span>
           </div>
         </div>
-      </article>
+        <button class="tl-toggle" onclick="tlToggle(this)">▼ Tampilkan detail</button>
+      </div>
 
-      <article class="work-card">
-        <div class="work-meta">
-          <h3 class="work-role">Administrative Data &amp; Digital Services Intern</h3>
-          <p class="work-org">Kantor Desa Maronge</p>
-          <p class="work-period">Okt 2022 – Jan 2023 · Sumbawa</p>
-        </div>
-        <div class="work-body">
-          <p>Mencatat dan mengelola data administratif desa dengan tingkat akurasi dan ketepatan waktu tinggi. Memproses surat masuk/keluar dan mendukung pengarsipan dokumen, serta melayani warga yang mengurus surat resmi. Program magang ini menjadi titik awal proyek capstone di atas.</p>
-          <div class="work-stack">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Okt 2022 – Jan 2023</p>
+        <h3 class="tl-role">Administrative Data &amp; Digital Services Intern</h3>
+        <p class="tl-org">Kantor Desa Maronge · Program Merdeka Belajar</p>
+        <div class="tl-body">
+          <p>Mencatat dan mengelola data administratif desa, memproses surat masuk/keluar, pengarsipan dokumen, dan melayani warga langsung. Pengalaman ini menjadi akar dari proyek Sistem Informasi Desa di atas.</p>
+          <div class="work-stack" style="margin-top:12px;">
             <span class="chip">Administrasi Data</span><span class="chip">Pengarsipan</span><span class="chip">Layanan Publik</span>
           </div>
         </div>
-      </article>
+        <button class="tl-toggle" onclick="tlToggle(this)">▼ Tampilkan detail</button>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Agu 2021 – Agu 2023</p>
+        <h3 class="tl-role">Kepala Divisi Bakat &amp; Minat</h3>
+        <p class="tl-org">HMIF Universitas Teknologi Sumbawa</p>
+        <div class="tl-body">
+          <p>Memimpin program kolaboratif untuk mengembangkan potensi mahasiswa. Merencanakan dan mengkoordinasikan program kerja untuk meningkatkan keterampilan dan keterlibatan anggota.</p>
+        </div>
+        <button class="tl-toggle" onclick="tlToggle(this)">▼ Tampilkan detail</button>
+      </div>
 
     </div>
   </section>
@@ -599,42 +845,58 @@
       <h2 class="section-title">Keahlian</h2>
       <span class="section-line"></span>
     </div>
-    <div class="skills-grid reveal">
-      <div class="skill-cat">
-        <p class="cat-label">PENGEMBANGAN WEB</p>
-        <ul>
-          <li>PHP &amp; CodeIgniter</li>
-          <li>MySQL</li>
-          <li>HTML &amp; CSS</li>
-          <li>Python</li>
-        </ul>
-      </div>
-      <div class="skill-cat">
-        <p class="cat-label">IT SUPPORT</p>
-        <ul>
-          <li>Windows, macOS, Linux</li>
-          <li>Troubleshooting Perangkat</li>
-          <li>Manajemen Tiket/Laporan</li>
-        </ul>
-      </div>
-      <div class="skill-cat">
-        <p class="cat-label">DATA &amp; DOKUMEN</p>
-        <ul>
-          <li>Microsoft Excel (formula, data cleaning)</li>
-          <li>Microsoft Word (laporan &amp; proposal)</li>
-          <li>Administrasi Data</li>
-        </ul>
-      </div>
+    <div class="skill-bars reveal" id="skillBars">
+      <div class="skill-bar-row"><span class="name">PHP &amp; CodeIgniter</span><div class="bar-track"><div class="bar-fill" data-pct="85"></div></div><span class="pct">85%</span></div>
+      <div class="skill-bar-row"><span class="name">MySQL</span><div class="bar-track"><div class="bar-fill" data-pct="80"></div></div><span class="pct">80%</span></div>
+      <div class="skill-bar-row"><span class="name">HTML &amp; CSS</span><div class="bar-track"><div class="bar-fill" data-pct="82"></div></div><span class="pct">82%</span></div>
+      <div class="skill-bar-row"><span class="name">Python</span><div class="bar-track"><div class="bar-fill" data-pct="65"></div></div><span class="pct">65%</span></div>
+      <div class="skill-bar-row"><span class="name">IT Support / Troubleshooting</span><div class="bar-track"><div class="bar-fill" data-pct="78"></div></div><span class="pct">78%</span></div>
+      <div class="skill-bar-row"><span class="name">Microsoft Excel</span><div class="bar-track"><div class="bar-fill" data-pct="75"></div></div><span class="pct">75%</span></div>
+      <div class="skill-bar-row"><span class="name">Administrasi Data</span><div class="bar-track"><div class="bar-fill" data-pct="88"></div></div><span class="pct">88%</span></div>
+    </div>
+    <div class="fun-stats reveal">
+      <div class="fun-stat"><span class="num" data-target="52" data-decimal="0">0</span><span class="lbl">MATA KULIAH DISELESAIKAN</span></div>
+      <div class="fun-stat"><span class="num" data-target="148" data-decimal="0">0</span><span class="lbl">TOTAL SKS</span></div>
+      <div class="fun-stat"><span class="num" data-target="3" data-decimal="0">0</span><span class="lbl">PENGALAMAN KERJA/MAGANG</span></div>
+      <div class="fun-stat"><span class="num" data-target="2026" data-decimal="0">0</span><span class="lbl">SIAP BERKARIER</span></div>
     </div>
   </section>
 
   <section class="contact-section wrap">
     <p class="contact-eyebrow reveal">— ADA POSISI YANG COCOK?</p>
     <h2 class="contact-title reveal">Mari <span class="accent-word">ngobrol.</span></h2>
-    <a class="contact-email reveal" href="mailto:abelperkasa1@gmail.com">abelperkasa1@gmail.com</a>
-    <p class="contact-sub reveal">Atau lewat <a href="https://www.linkedin.com/in/abigail-perkasa" target="_blank" rel="noopener">LinkedIn</a></p>
+    <button class="btn btn-primary reveal" style="font-size:16px;padding:16px 32px;border:none;cursor:pointer;margin:0 auto;display:block;" onclick="openModal(event)">Buka Kontak ✉</button>
+    <p class="contact-sub reveal" style="margin-top:24px;">Atau langsung: <a href="mailto:abelperkasa1@gmail.com">abelperkasa1@gmail.com</a> · <a href="https://www.linkedin.com/in/abigail-perkasa" target="_blank" rel="noopener">LinkedIn</a></p>
   </section>
 </main>
+
+<!-- Contact Modal -->
+<div class="modal-backdrop" id="modal" onclick="closeModalBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Tutup">✕</button>
+    <h2>Ngobrol yuk! 👋</h2>
+    <p>Pilih cara terbaik untuk menghubungi saya:</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:abelperkasa1@gmail.com">
+        <span class="icon">✉</span>
+        <span class="lbl">Email</span>
+        <span class="val">abelperkasa1@gmail.com</span>
+        <button class="copy-btn" onclick="copyText(event,'abelperkasa1@gmail.com')">Salin</button>
+      </a>
+      <a class="contact-link" href="https://wa.me/6285337489141" target="_blank" rel="noopener">
+        <span class="icon">💬</span>
+        <span class="lbl">WhatsApp</span>
+        <span class="val">085337489141</span>
+        <button class="copy-btn" onclick="copyText(event,'085337489141')">Salin</button>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/abigail-perkasa" target="_blank" rel="noopener">
+        <span class="icon">💼</span>
+        <span class="lbl">LinkedIn</span>
+        <span class="val">linkedin.com/in/abigail-perkasa</span>
+      </a>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="footer-inner">
@@ -644,20 +906,160 @@
 </footer>
 
 <script>
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    const items = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
-      });
-    }, {threshold:0.15});
-    items.forEach(el=>io.observe(el));
-  } else {
-    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- Scroll progress + back-to-top ---- */
+const sp = document.getElementById('sp');
+const btt = document.getElementById('btt');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  sp.style.width = pct + '%';
+  btt.classList.toggle('visible', window.scrollY > 400);
+}, {passive:true});
+
+/* ---- Cursor glow (desktop only) ---- */
+const cg = document.getElementById('cg');
+if (window.matchMedia('(hover:hover)').matches) {
+  window.addEventListener('mousemove', e => {
+    cg.style.transform = `translate(${e.clientX - 170}px, ${e.clientY - 170}px)`;
+  }, {passive:true});
+}
+
+/* ---- Reveal on scroll ---- */
+if (!noMotion) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        if (e.target.id === 'skillBars') animateBars();
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  /* counter on hero-facts when in view */
+  const heroFacts = document.querySelector('.hero-facts');
+  if(heroFacts){
+    const io2 = new IntersectionObserver(([e]) => {
+      if(e.isIntersecting){ animateCounters(e.target); io2.unobserve(e.target); }
+    },{threshold:0.3});
+    io2.observe(heroFacts);
   }
+  /* counters in fun-stats */
+  const funStats = document.querySelector('.fun-stats');
+  if(funStats){
+    const io3 = new IntersectionObserver(([e]) => {
+      if(e.isIntersecting){ animateCounters(e.target); io3.unobserve(e.target); }
+    },{threshold:0.3});
+    io3.observe(funStats);
+  }
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  animateBars(true);
+}
+
+/* ---- Animated counters ---- */
+function animateCounters(scope) {
+  scope.querySelectorAll('[data-target]').forEach(el => {
+    const target = parseFloat(el.dataset.target);
+    const dec = parseInt(el.dataset.decimal || 0);
+    const dur = 1600;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      const val = target * ease;
+      el.textContent = val.toFixed(dec);
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toFixed(dec);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+/* ---- Skill bars ---- */
+function animateBars(instant) {
+  document.querySelectorAll('.bar-fill').forEach(bar => {
+    const pct = bar.dataset.pct + '%';
+    if (instant) { bar.style.width = pct; return; }
+    setTimeout(() => { bar.style.width = pct; }, 200);
+  });
+}
+
+/* ---- Role rotator (keeps headline but rotates subtitle) ---- */
+const roles = [
+  'closed to drama.',
+  'IT Support ready.',
+  'Web Dev curious.',
+  'Detail oriented.',
+  'Cum Laude grad.',
+];
+let ri = 0;
+const roleEl = document.getElementById('roleText');
+if(roleEl && !noMotion){
+  setInterval(() => {
+    roleEl.style.opacity = '0';
+    setTimeout(() => {
+      ri = (ri + 1) % roles.length;
+      roleEl.textContent = roles[ri];
+      roleEl.style.opacity = '1';
+    }, 350);
+  }, 2800);
+  roleEl.style.transition = 'opacity 0.35s ease';
+}
+
+/* ---- SVG organize toggle ---- */
+let organized = false;
+function toggleOrganize() {
+  const svg = document.getElementById('heroSvg');
+  if (!svg) return;
+  organized = !organized;
+  svg.classList.toggle('organized', organized);
+  const dots = svg.querySelectorAll('.dots-organic circle');
+  dots.forEach(c => {
+    if (organized) {
+      c.setAttribute('cx', c.dataset.tx);
+      c.setAttribute('cy', c.dataset.ty);
+    } else {
+      c.setAttribute('cx', c.dataset.ox);
+      c.setAttribute('cy', c.dataset.oy);
+    }
+  });
+}
+
+/* ---- Timeline toggle ---- */
+function tlToggle(btn) {
+  const item = btn.closest('.tl-item');
+  const isOpen = item.classList.toggle('open');
+  btn.textContent = isOpen ? '▲ Sembunyikan' : '▼ Tampilkan detail';
+}
+
+/* ---- Contact modal ---- */
+function openModal(e) {
+  if(e) e.preventDefault();
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalBg(e) {
+  if (e.target === e.currentTarget) closeModal();
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+/* ---- Copy to clipboard ---- */
+function copyText(e, text) {
+  e.preventDefault(); e.stopPropagation();
+  navigator.clipboard.writeText(text).then(() => showToast('Disalin! ✓'));
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
 </script>
 
 </body>
