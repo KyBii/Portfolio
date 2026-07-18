@@ -666,6 +666,42 @@
   .btt.visible{opacity:1; pointer-events:auto;}
   .btt:hover{border-color:var(--teal); color:var(--teal);}
 
+  /* ---------- Tech stack ---------- */
+  .tech-stack{margin-top:48px;}
+  .stack-label{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:0.08em;
+    margin-bottom:16px;
+  }
+  .stack-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .stack-item{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:12px 18px;
+    background:var(--panel);
+    border:1px solid var(--line-soft);
+    border-radius:8px;
+    cursor:default;
+    transition:border-color .25s, transform .2s, box-shadow .25s;
+    user-select:none;
+  }
+  .stack-item:hover{
+    transform:translateY(-3px);
+  }
+  .stack-icon{font-size:18px; line-height:1;}
+  .stack-name{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text);
+  }
+
   /* ---------- Reveal on scroll ---------- */
   .reveal{
     opacity:0;
@@ -854,11 +890,18 @@
       <div class="skill-bar-row"><span class="name">Microsoft Excel</span><div class="bar-track"><div class="bar-fill" data-pct="75"></div></div><span class="pct">75%</span></div>
       <div class="skill-bar-row"><span class="name">Administrasi Data</span><div class="bar-track"><div class="bar-fill" data-pct="88"></div></div><span class="pct">88%</span></div>
     </div>
-    <div class="fun-stats reveal">
-      <div class="fun-stat"><span class="num" data-target="52" data-decimal="0">0</span><span class="lbl">MATA KULIAH DISELESAIKAN</span></div>
-      <div class="fun-stat"><span class="num" data-target="148" data-decimal="0">0</span><span class="lbl">TOTAL SKS</span></div>
-      <div class="fun-stat"><span class="num" data-target="3" data-decimal="0">0</span><span class="lbl">PENGALAMAN KERJA/MAGANG</span></div>
-      <div class="fun-stat"><span class="num" data-target="2026" data-decimal="0">0</span><span class="lbl">SIAP BERKARIER</span></div>
+    <div class="tech-stack reveal">
+      <p class="stack-label">TECH STACK</p>
+      <div class="stack-grid">
+        <div class="stack-item" data-color="#e3a63e"><span class="stack-icon">🐘</span><span class="stack-name">PHP</span></div>
+        <div class="stack-item" data-color="#4fd1c5"><span class="stack-icon">🔥</span><span class="stack-name">CodeIgniter</span></div>
+        <div class="stack-item" data-color="#4fd1c5"><span class="stack-icon">🗄️</span><span class="stack-name">MySQL</span></div>
+        <div class="stack-item" data-color="#e3a63e"><span class="stack-icon">🐍</span><span class="stack-name">Python</span></div>
+        <div class="stack-item" data-color="#e3a63e"><span class="stack-icon">🌐</span><span class="stack-name">HTML & CSS</span></div>
+        <div class="stack-item" data-color="#4fd1c5"><span class="stack-icon">🖥️</span><span class="stack-name">Windows / Linux</span></div>
+        <div class="stack-item" data-color="#e3a63e"><span class="stack-icon">📊</span><span class="stack-name">Excel</span></div>
+        <div class="stack-item" data-color="#4fd1c5"><span class="stack-icon">🔧</span><span class="stack-name">IT Support</span></div>
+      </div>
     </div>
   </section>
 
@@ -937,14 +980,6 @@ if (!noMotion) {
     });
   }, {threshold:0.12});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  /* counter on hero-facts when in view */
-  const heroFacts = document.querySelector('.hero-facts');
-  if(heroFacts){
-    const io2 = new IntersectionObserver(([e]) => {
-      if(e.isIntersecting){ animateCounters(e.target); io2.unobserve(e.target); }
-    },{threshold:0.3});
-    io2.observe(heroFacts);
-  }
   /* counters in fun-stats */
   const funStats = document.querySelector('.fun-stats');
   if(funStats){
@@ -961,21 +996,29 @@ if (!noMotion) {
 /* ---- Animated counters ---- */
 function animateCounters(scope) {
   scope.querySelectorAll('[data-target]').forEach(el => {
+    if (el.dataset.animated) return;
+    el.dataset.animated = '1';
     const target = parseFloat(el.dataset.target);
     const dec = parseInt(el.dataset.decimal || 0);
-    const dur = 1600;
+    const dur = noMotion ? 0 : 1600;
+    if (dur === 0) { el.textContent = target.toFixed(dec); return; }
     const start = performance.now();
     function tick(now) {
       const t = Math.min((now - start) / dur, 1);
       const ease = 1 - Math.pow(1 - t, 3);
-      const val = target * ease;
-      el.textContent = val.toFixed(dec);
+      el.textContent = (target * ease).toFixed(dec);
       if (t < 1) requestAnimationFrame(tick);
       else el.textContent = target.toFixed(dec);
     }
     requestAnimationFrame(tick);
   });
 }
+
+/* run hero-facts counters immediately on load (always visible) */
+window.addEventListener('DOMContentLoaded', () => {
+  const hf = document.querySelector('.hero-facts');
+  if (hf) setTimeout(() => animateCounters(hf), 400);
+});
 
 /* ---- Skill bars ---- */
 function animateBars(instant) {
@@ -1060,6 +1103,18 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2000);
 }
+/* ---- Tech stack hover glow ---- */
+document.querySelectorAll('.stack-item').forEach(el => {
+  const color = el.dataset.color || '#4fd1c5';
+  el.addEventListener('mouseenter', () => {
+    el.style.borderColor = color;
+    el.style.boxShadow = `0 0 18px ${color}44`;
+  });
+  el.addEventListener('mouseleave', () => {
+    el.style.borderColor = '';
+    el.style.boxShadow = '';
+  });
+});
 </script>
 
 </body>
