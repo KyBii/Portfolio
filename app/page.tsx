@@ -80,6 +80,53 @@ const EXPERIENCES = [
   },
 ];
 
+function FormContact() {
+  const [status, setStatus] = useState<"idle"|"sending"|"success"|"error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    try {
+      const res = await fetch("https://formspree.io/f/mjybjlyq", {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) { setStatus("success"); form.reset(); }
+      else setStatus("error");
+    } catch { setStatus("error"); }
+  };
+
+  return (
+    <form className="contact-form" onSubmit={handleSubmit}>
+      <div className="form-row">
+        <div className="form-group"><label htmlFor="name">Nama</label><input type="text" id="name" placeholder="nama lengkap" required name="name"/></div>
+        <div className="form-group"><label htmlFor="email">Email</label><input type="email" id="email" placeholder="email@domain.com" required name="email"/></div>
+      </div>
+      <div className="form-group">
+        <label htmlFor="subject">Topik</label>
+        <select id="subject" name="subject" required defaultValue="">
+          <option value="" disabled>pilih topik...</option>
+          <option value="it-support">IT Support</option>
+          <option value="web-dev">Web Development</option>
+          <option value="data">Data Management</option>
+          <option value="admin">Administrasi</option>
+          <option value="other">Lainnya</option>
+        </select>
+      </div>
+      <div className="form-group"><label htmlFor="message">Pesan</label><textarea id="message" name="message" placeholder="ceritakan kebutuhan atau proyek Anda..." required/></div>
+      <button type="submit" className="btn btn-primary btn-send" disabled={status==="sending"}>
+        {status==="sending" ? "Mengirim..." : "Kirim Pesan"}
+      </button>
+      {status==="success" && <p style={{color:"green",fontWeight:600}}>✓ Pesan terkirim! Saya akan segera menghubungi Anda.</p>}
+      {status==="error" && <p style={{color:"red"}}>Gagal mengirim, coba lagi atau hubungi lewat WhatsApp.</p>}
+      <p className="form-note">* Tidak ada spam. Pesan Anda aman.</p>
+    </form>
+  );
+}
+
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -324,26 +371,7 @@ export default function Home() {
                   </div>
                   <div className="contact-note">Balasan biasanya dalam 24 jam. Selalu terbuka untuk diskusi peluang baru maupun kolaborasi.</div>
                 </div>
-                <form className="contact-form" onSubmit={e=>{e.preventDefault();alert("Pesan terkirim! Terima kasih, saya akan segera menghubungi Anda.");(e.target as HTMLFormElement).reset();}}>
-                  <div className="form-row">
-                    <div className="form-group"><label htmlFor="name">Nama</label><input type="text" id="name" placeholder="nama lengkap" required name="name"/></div>
-                    <div className="form-group"><label htmlFor="email">Email</label><input type="email" id="email" placeholder="email@domain.com" required name="email"/></div>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="subject">Topik</label>
-                    <select id="subject" name="subject" required defaultValue="">
-                      <option value="" disabled>pilih topik...</option>
-                      <option value="it-support">IT Support</option>
-                      <option value="web-dev">Web Development</option>
-                      <option value="data">Data Management</option>
-                      <option value="admin">Administrasi</option>
-                      <option value="other">Lainnya</option>
-                    </select>
-                  </div>
-                  <div className="form-group"><label htmlFor="message">Pesan</label><textarea id="message" name="message" placeholder="ceritakan kebutuhan atau proyek Anda..." required/></div>
-                  <button type="submit" className="btn btn-primary btn-send">Kirim Pesan</button>
-                  <p className="form-note">* Tidak ada spam. Pesan Anda aman.</p>
-                </form>
+                <FormContact />
               </div>
             </div>
           </section>
